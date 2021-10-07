@@ -7,6 +7,11 @@ const clientSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    clientId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,

@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import AuditFileModel from "../models/AuditFileModel.js";
+import uniqueId from "nodejs-unique-numeric-id-generator";
 import ClientModel from "../models/ClientModel.js";
 import UserModel from "../models/userModel.js";
 import path from "path";
@@ -10,6 +11,7 @@ export const createClient = asyncHandler(async (req, res) => {
     const client = new ClientModel({
       user: User._id,
       name: "Enter Full Name",
+      clientId: uniqueId.generate(new Date().toJSON()),
       password: "Create Password",
       email: "Enter Client Email",
       address: "Enter Client Address",
@@ -19,9 +21,10 @@ export const createClient = asyncHandler(async (req, res) => {
     });
 
     const createdClient = await client.save();
+    console.log(createdClient);
     res.status(201).json({
       user: User._id,
-      id: createdClient._id,
+      _id: createdClient._id,
       name: "Enter Full Name",
       password: "Create New Password",
       email: "Enter Client Email",
@@ -29,6 +32,7 @@ export const createClient = asyncHandler(async (req, res) => {
       phone: "Enter Client Phone",
       registrationNumber: "Enter registration Number",
       images: "Enter images url separated with comma or choose",
+      clientId: createdClient.clientId,
     });
   } else {
     res.status(404);
@@ -50,6 +54,7 @@ export const updateClient = asyncHandler(async (req, res) => {
     client.phone = phone || client.phone;
     client.registrationNumber = registrationNumber || client.registrationNumber;
     client.images = images || client.images;
+    client.clientId = client.clientId;
     const updatedClient = await client.save();
     if (updateClient) {
       const fetchingUpdatedClient = await ClientModel.findById(

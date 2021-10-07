@@ -25,7 +25,7 @@ const Header = () => {
             <Nav style={{ marginLeft: "auto" }} className="ml-auto">
             {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin Panel" id="adminmenu">
-                  <LinkContainer to="/admin/userlist">
+                  <LinkContainer to="/admin/clientlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to="/admin/productlist">

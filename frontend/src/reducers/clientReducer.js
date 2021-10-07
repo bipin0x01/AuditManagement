@@ -5,7 +5,7 @@ import {
   CLIENT_DETAILS_SUCCESS,
 } from "../constants/clientConstants";
 
-export const clientDetailsReducer = (state = { clients: {} }, action) => {
+export const clientDetailsReducer = (state = { clients: [] }, action) => {
   switch (action.type) {
     case CLIENT_DETAILS_REQUEST:
       return { ...state, loading: true };
