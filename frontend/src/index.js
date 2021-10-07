@@ -5,7 +5,7 @@ import App from "./App";
 import "./bootstrap.min.css";
 import "./index.css";
 import store from "./store";
-
+    
 ReactDOM.render(
     <Provider store={store}>
       <App />
