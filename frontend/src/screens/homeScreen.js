@@ -1,17 +1,22 @@
-import React from 'react'
-import { Card, Row } from 'react-bootstrap'
-const homeScreen = () => {
-    return (
-        <div>
-            {/* <Row>
-            {products.map((product) => (
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <Product product={product} />
-              </Col>
-            ))}
-          </Row> */}
-        </div>
-    )
-}
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import { Button, Col, Form, Row, Card } from "react-bootstrap";
 
-export default homeScreen
+const HomeScreen = ({ location, history }) => {
+  const dispatch = useDispatch();
+  const redirect = location.search ? location.search.split("=")[1] : "/login";
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, userInfo, error } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect]);
+  return <div></div>;
+};
+
+export default HomeScreen;
