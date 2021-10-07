@@ -22,7 +22,7 @@ const HomeScreen = ({ location, history }) => {
   }, [history, userInfo, redirect, dispatch]);
   return  (
         <div>
-            <DashCard title="as" value="10"/>
+            hi
         </div>
     );
 };

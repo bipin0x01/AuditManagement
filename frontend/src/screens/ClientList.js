@@ -8,7 +8,6 @@ import Loader from "../components/Loader";
 import { deleteClient, getClientDetailsAction } from "../actions/clientAction";
 
 const ClientListScreen = ({ history }) => {
-  const [noOfClient, setNoOfClient] = useState(0);
   const dispatch = useDispatch();
   const clientDetails = useSelector((state) => state.clientDetails);
   const { loading, error, clients } = clientDetails;
@@ -16,20 +15,18 @@ const ClientListScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  //   const userDelete = useSelector((state) => state.userDelete);
-  //   const { success: successDelete, loading: loadingDelete } = userDelete;
+    const clientDelete = useSelector((state) => state.clientDelete);
+    const { success: successDelete, loading: loadingDelete } = clientDelete;
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getClientDetailsAction());
-      setNoOfClient(clients.length);
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      // dispatch(d(id));
       dispatch(deleteClient(id));
     }
   };
@@ -40,7 +37,7 @@ const ClientListScreen = ({ history }) => {
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
-      ) : noOfClient === 0 ? (
+      ) : clients.length === 0 ? (
         <Message variant="danger">No existing client</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">

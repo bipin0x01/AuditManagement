@@ -17,7 +17,13 @@ export const createClient = asyncHandler(async (req, res) => {
       address: "Enter Client Address",
       phone: "Enter Client Phone",
       registrationNumber: "Enter registration Number",
-      images: "Enter images url separated with comma or choose",
+      images: [
+        req.protocol +
+          "://" +
+          req.get("host") +
+          "/uploads/" +
+          "sampleImage2021oct8.jpeg",
+      ],
     });
 
     const createdClient = await client.save();
@@ -31,7 +37,13 @@ export const createClient = asyncHandler(async (req, res) => {
       address: "Enter Client Address",
       phone: "Enter Client Phone",
       registrationNumber: "Enter registration Number",
-      images: "Enter images url separated with comma or choose",
+      images: [
+        req.protocol +
+          "://" +
+          req.get("host") +
+          "/uploads/" +
+          "sampleImage2021oct8.jpeg",
+      ],
       clientId: createdClient.clientId,
     });
   } else {
@@ -56,9 +68,9 @@ export const updateClient = asyncHandler(async (req, res) => {
     client.images = images || client.images;
     client.clientId = client.clientId;
     const updatedClient = await client.save();
-    if (updateClient) {
+    if (updatedClient) {
       const fetchingUpdatedClient = await ClientModel.findById(
-        req.params.id
+        updatedClient._id
       ).select("-password");
       res.json(fetchingUpdatedClient);
     } else {
@@ -77,7 +89,7 @@ export const clientDelete = asyncHandler(async (req, res) => {
   if (client) {
     if (client.images.length) {
       const __dirname = path.resolve();
-      const imagesPath = client.images.map((image) => {
+      var imagesPath = client.images.map((image) => {
         return (
           __dirname +
           "/" +
@@ -86,8 +98,12 @@ export const clientDelete = asyncHandler(async (req, res) => {
           image.split("/")[image.split("/").length - 1]
         );
       });
-      imagesPath.map((imagePath) => {
-        fs.unlink(imagePath, (err) => {
+      const updateImagesPath = imagesPath.filter((imageP) => {
+        imageP.split("/")[imageP.split("/").length - 1] !==
+          "sampleImage2021oct8.jpeg";
+      });
+      updateImagesPath.map((imageP) => {
+        fs.unlink(imageP, (err) => {
           if (err) {
             console.error(err);
             throw new Error(err);
