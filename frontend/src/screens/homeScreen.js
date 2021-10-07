@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { Button, Col, Form, Row, Card } from "react-bootstrap";
+import { getClientDetailsAction } from "../actions/clientAction";
 
 const HomeScreen = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -15,10 +16,9 @@ const HomeScreen = ({ location, history }) => {
     if (!userInfo) {
       history.push(redirect);
     }
-  }, [history, userInfo, redirect]);
+    dispatch(getClientDetailsAction());
+  }, [history, userInfo, redirect, dispatch]);
   return <div></div>;
 };
 
 export default HomeScreen;
-
-

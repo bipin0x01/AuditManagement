@@ -23,35 +23,7 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Route />
             <Nav style={{ marginLeft: "auto" }} className="ml-auto">
-              {userInfo ? (
-                <Nav.Link onClick={logoutHandler}>
-                  <i className="fas fa-users"></i> Log Out
-                </Nav.Link>
-              ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-users"></i> Sign In
-                  </Nav.Link>
-                </LinkContainer>
-              )}
-              {/* {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <NavDropdown.Item >
-                    Log out
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-users"></i> Sign In
-                  </Nav.Link>
-                </LinkContainer>
-              )} */}
-              {/* {userInfo && userInfo.isAdmin && (
+            {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin Panel" id="adminmenu">
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
@@ -63,7 +35,20 @@ const Header = () => {
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
-              )} */}
+              )}
+              {userInfo ? (
+                <Nav.Link onClick={logoutHandler}>
+                  <i className="fas fa-users"></i> Log Out
+                </Nav.Link>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-users"></i> Sign In
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              
+              
             </Nav>
           </Navbar.Collapse>
         </Container>
