@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Row } from 'react-bootstrap'
-const homeScreen = () => {
+const HomeScreen = () => {
     return (
         <div>
             {/* <Row>
@@ -14,4 +14,4 @@ const homeScreen = () => {
     )
 }
 
-export default homeScreen
+export default HomeScreen;

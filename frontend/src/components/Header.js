@@ -17,7 +17,7 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Route />
             <Nav style={{ marginLeft: "auto" }} className="ml-auto">
-              <LinkContainer to="/cart">
+              <LinkContainer to="/login">
                 <Nav.Link>
                   <i className="fas fa-shopping-cart"></i> Login
                 </Nav.Link>
