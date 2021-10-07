@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { Button, Col, Form, Row, Card } from "react-bootstrap";
 import { getClientDetailsAction } from "../actions/clientAction";
+import DashCard from '../components/DashCard';
 
 const HomeScreen = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -18,7 +20,11 @@ const HomeScreen = ({ location, history }) => {
     }
     dispatch(getClientDetailsAction());
   }, [history, userInfo, redirect, dispatch]);
-  return <div></div>;
+  return  (
+        <div>
+            <DashCard title="as" value="10"/>
+        </div>
+    );
 };
 
 export default HomeScreen;
