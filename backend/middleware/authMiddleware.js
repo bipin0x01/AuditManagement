@@ -3,6 +3,7 @@ import UserModel from "../models/userModel.js";
 import asynchHandler from "express-async-handler";
 export const protect = asynchHandler(async (req, res, next) => {
   let token;
+  console.log("I am in th eproject");
   try {
     if (
       req.headers.authorization &&
@@ -23,7 +24,10 @@ export const protect = asynchHandler(async (req, res, next) => {
       res.status(401);
       throw new Error("Unauthorized");
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(401);
+    throw new Error("Unauthorized");
+  }
 });
 
 export const isAdmin = asynchHandler(async (req, res, next) => {

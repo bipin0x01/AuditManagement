@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 });
 
 function checkFileType(file, cb) {
-  const fileTypes = /jpeg|jpg|png|pdf|docx|xlsx|csv|txt/;
+  const fileTypes = /jpeg|jpg|png|pdf|docx|xlsx|csv|txt|/;
   const extname = fileTypes.test(path.extname(file.originalname.toLowerCase()));
   const mimetype = fileTypes.test(file.mimetype);
   if (extname && mimetype) {
@@ -34,10 +34,12 @@ const upload = multer({
     checkFileType(file, cb);
   },
 });
-router.route("/").post(upload.array("clientDocuments", 10), (req, res) => {
-    console.log("I am Nishan")
-  console.log(req.files);
-  res.send(req.files);
+
+router.route("/").post(protect, isAdmin, upload.array("clientFile", 10), (req, res) => {
+
+  const fullImageUrl = req.protocol + "://" + req.get("host") + "/uploads/";
+  const filesPath = req.files.map((file) => fullImageUrl + file.filename);
+  res.send(filesPath);
 });
 
 export default router;
