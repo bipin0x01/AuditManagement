@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import loginScreen from "./screens/loginScreen"
-import HomeScreen from "./screens/HomeScreen";
+import loginScreen from "./screens/loginScreen";
+import HomeScreen from "./screens/HomeScreen"
 const App = () => {
   return (
     <Router>
