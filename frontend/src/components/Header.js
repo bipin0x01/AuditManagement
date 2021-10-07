@@ -2,10 +2,16 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
-// import { logout } from "../actions/userActions";
 import { Route } from "react-router-dom";
+import { logout } from "../actions/userActions";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, userInfo, error } = userLogin;
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -17,29 +23,7 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Route />
             <Nav style={{ marginLeft: "auto" }} className="ml-auto">
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <i className="fas fa-shopping-cart"></i> Login
-                </Nav.Link>
-              </LinkContainer>
-              {/* {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <NavDropdown.Item >
-                    Log out
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-users"></i> Sign In
-                  </Nav.Link>
-                </LinkContainer>
-              )} */}
-              {/* {userInfo && userInfo.isAdmin && (
+            {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin Panel" id="adminmenu">
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
@@ -51,7 +35,20 @@ const Header = () => {
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
-              )} */}
+              )}
+              {userInfo ? (
+                <Nav.Link onClick={logoutHandler}>
+                  <i className="fas fa-users"></i> Log Out
+                </Nav.Link>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-users"></i> Sign In
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              
+              
             </Nav>
           </Navbar.Collapse>
         </Container>
