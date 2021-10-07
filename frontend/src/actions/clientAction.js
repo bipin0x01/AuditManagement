@@ -1,4 +1,7 @@
 import {
+  CLIENT_DEL_FAIL,
+  CLIENT_DEL_REQ,
+  CLIENT_DEL_SUCCESS,
   CLIENT_DETAILS_FAIL,
   CLIENT_DETAILS_REQUEST,
   CLIENT_DETAILS_RESET,
@@ -28,6 +31,36 @@ export const getClientDetailsAction = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CLIENT_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const deleteClient = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CLIENT_DEL_REQ,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.delete(`/api/clients/${id}`, config);
+    dispatch({
+      type: CLIENT_DEL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CLIENT_DEL_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

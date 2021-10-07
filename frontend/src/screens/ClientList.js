@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getClientDetailsAction } from "../actions/clientAction";
+import { deleteClient, getClientDetailsAction } from "../actions/clientAction";
 
 const ClientListScreen = ({ history }) => {
   const [noOfClient, setNoOfClient] = useState(0);
@@ -27,11 +27,12 @@ const ClientListScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo]);
 
-  //   const deleteHandler = (id) => {
-  //     if (window.confirm("Are you sure?")) {
-  //       dispatch(deleteUser(id));
-  //     }
-  //   };
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure?")) {
+      // dispatch(d(id));
+      dispatch(deleteClient(id));
+    }
+  };
   return (
     <div>
       <h1>Clients</h1>
@@ -56,40 +57,47 @@ const ClientListScreen = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {clients.map((client) => (
-              <tr key={client._id}>
-                <td>{client.clientId}</td>
-                <td>{client.name}</td>
-                <td>
-                  <a href={`mailto:${client.email}`}>{client.email}</a>
-                </td>
-                <td>{client.address}</td>
-                <td>{client.phone}</td>
-                <td>{client.registrationNumber}</td>
+            {clients &&
+              clients.map((client) => (
+                <tr key={client._id}>
+                  <td>{client.clientId}</td>
+                  <td>{client.name}</td>
+                  <td>
+                    <a href={`mailto:${client.email}`}>{client.email}</a>
+                  </td>
+                  <td>{client.address}</td>
+                  <td>{client.phone}</td>
+                  <td>{client.registrationNumber}</td>
 
-                <td>
-                  {client.isAdmin ? (
-                    <i className="fas fa-check" style={{ color: "green" }}></i>
-                  ) : (
-                    <i className="fas fa-times" style={{ color: "red" }}></i>
-                  )}
-                </td>
-                <td>
-                  <LinkContainer to={`/users/${client._id}/edit`}>
-                    <Button variant="light" className="btn-sm">
-                      <i className="fas fa-edit"></i>
+                  <td>
+                    {client.isAdmin ? (
+                      <i
+                        className="fas fa-check"
+                        style={{ color: "green" }}
+                      ></i>
+                    ) : (
+                      <i className="fas fa-times" style={{ color: "red" }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer
+                      to={`/users/${client._id}/edit`}
+                      style={{ marginRight: "5px" }}
+                    >
+                      <Button variant="light" className="btn-sm">
+                        <i className="fas fa-edit"></i>
+                      </Button>
+                    </LinkContainer>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => deleteHandler(client._id)}
+                    >
+                      <i className="fas fa-trash" style={{ color: "red" }}></i>
                     </Button>
-                  </LinkContainer>
-                  <Button
-                    variant="danger"
-                    className="btn-sm"
-                    // onClick={() => deleteHandler(user._id)}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </Button>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       )}
