@@ -5,19 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { login } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
+import { login } from "../actions/userActions";
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
   const redirect = location.search ? location.search.split("=")[1] : "/";
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, userInfo, error } = userLogin;
   useEffect(() => {
     if (userInfo) {
       history.push(redirect);
@@ -51,14 +51,6 @@ const LoginScreen = ({ location, history }) => {
           Sign In
         </Button>
       </Form>
-      <Row className="py-3">
-        <Col>
-          New Customer?{" "}
-          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
-            Register
-          </Link>
-        </Col>
-      </Row>
     </FormContainer>
   );
 };

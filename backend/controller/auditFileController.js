@@ -2,7 +2,9 @@ import asyncHandler from "express-async-handler";
 import AuditFileModel from "../models/AuditFileModel.js";
 import ClientModel from "../models/ClientModel.js";
 import UserModel from "../models/userModel.js";
-export const createAuditFile = asyncHandler(async (req, res) => {
+import path from "path";
+import fs from "fs";
+export const createClient = asyncHandler(async (req, res) => {
   const User = await UserModel.findById(req.user._id).select("-password");
   if (User) {
     const client = new ClientModel({
@@ -41,17 +43,19 @@ export const updateClient = asyncHandler(async (req, res) => {
   const client = await ClientModel.findById(req.params.id);
 
   if (client) {
-    client.name = name;
-    client.password = password;
-    client.email = email;
-    client.address = address;
-    client.phone = phone;
-    client.registrationNumber = registrationNumber;
-    client.images = images;
+    client.name = name || client.name;
+    client.password = password || client.password;
+    client.email = email || client.email;
+    client.address = address || client.address;
+    client.phone = phone || client.phone;
+    client.registrationNumber = registrationNumber || client.registrationNumber;
+    client.images = images || client.images;
     const updatedClient = await client.save();
-    console.log({ ...updatedClient, password: "" });
     if (updateClient) {
-      res.json({ fuck: "you" });
+      const fetchingUpdatedClient = await ClientModel.findById(
+        req.params.id
+      ).select("-password");
+      res.json(fetchingUpdatedClient);
     } else {
       res.status(404);
       throw new Error("Client not found: Some error occurred");
@@ -64,26 +68,48 @@ export const updateClient = asyncHandler(async (req, res) => {
 
 export const clientDelete = asyncHandler(async (req, res) => {
   const client = await ClientModel.findById(req.params.id);
-  
-  if (client) {
-    // if (!client.image.includes("sampleimage.jpeg") && client.image) {
-    //   const __dirname = path.resolve();
-    //   const imageName =
-    //     project.image.split("/")[project.image.split("/").length - 1];
-    //   const imagePath =
-    //     __dirname + "/" + "backend/" + "uploads/" + "images/" + imageName;
-    //   fs.unlink(imagePath, (err) => {
-    //     if (err) {
-    //       console.error(err);
-    //       return;
-    //     }
 
-    //     //file removed
-    //   });
-    // }
+  if (client) {
+    if (client.images.length) {
+      const __dirname = path.resolve();
+      const imagesPath = client.images.map((image) => {
+        return (
+          __dirname +
+          "/" +
+          "backend/" +
+          "uploads/" +
+          image.split("/")[image.split("/").length - 1]
+        );
+      });
+      imagesPath.map((imagePath) => {
+        fs.unlink(imagePath, (err) => {
+          if (err) {
+            console.error(err);
+            throw new Error(err);
+          }
+        });
+
+        //file removed
+      });
+    }
     await client.remove();
     const clients = await ClientModel.find({});
     res.json(clients);
+  } else {
+    res.status(404);
+    throw new Error("Client not found");
+  }
+});
+
+export const fetchClients = asyncHandler(async (req, res) => {
+  const clients = await ClientModel.find({}).select("-password");
+  res.json(clients);
+});
+
+export const getClientDetails = asyncHandler(async (req, res) => {
+  const client = await ClientModel.findById(req.params.id).select("-password");
+  if (client) {
+    res.json(client);
   } else {
     res.status(404);
     throw new Error("Client not found");
