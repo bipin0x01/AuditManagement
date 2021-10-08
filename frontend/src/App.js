@@ -13,15 +13,11 @@ const App = () => {
   return (
     <Router>
       <Header />
-        <div className="col-2 sidebar">
           <Sidebar />
-        </div>
-        <div className="col-10 pt-4 mainbody">
-        <Container>
+        <div className="col-xl-9 col-lg-8 col-md-7 p-4 mainbody">
           <Route path="/login" component={LoginScreen} />
           <Route path="/" component={HomeScreen} exact />
           <Route path="/admin/clientlist" component={ClientListScreen} exact />
-          </Container>
           <Footer/>
         </div>
       

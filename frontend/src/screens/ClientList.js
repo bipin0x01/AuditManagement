@@ -50,7 +50,8 @@ const ClientListScreen = ({ history }) => {
               <th>Contact Number</th>
               <th>Registration Number</th>
               <th>Is Admin?</th>
-              <th>--edit/del--</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -85,6 +86,8 @@ const ClientListScreen = ({ history }) => {
                         <i className="fas fa-edit"></i>
                       </Button>
                     </LinkContainer>
+                  </td>
+                  <td>
                     <Button
                       variant="danger"
                       className="btn-sm"

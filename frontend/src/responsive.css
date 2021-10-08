@@ -2,13 +2,14 @@
     z-index: 1000;
     height: 100%;
   position: fixed;
-
   overflow-x: hidden;
   
 }
 
 .mainbody{
-    margin-left: 243px;
+    margin-left: 300px;
+    padding: 2px;
+    margin-top: 56px;
 }
 
 
@@ -18,9 +19,9 @@
    right: 0;
 }
 
-@media screen and (max-width: 1096px){
-    .sidebar{
-        display: none;
+@media screen and (max-width: 992px){
+    .mainbody{
+        
 }
 }
 

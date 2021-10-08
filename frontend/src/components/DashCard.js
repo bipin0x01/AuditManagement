@@ -2,7 +2,7 @@ import React from "react";
 const DashCard = ({ value, title, icon, color }) => {
   return (
     <>
-      <div className="col-xl-3 col-md-6">
+      <div className="col-xl-3 col-md-6 p-2">
         <div className="card">
           <div className="card-block" style={{ padding: "20px" }}>
             <div className="row align-items-center">
