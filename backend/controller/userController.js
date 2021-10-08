@@ -22,8 +22,6 @@ export const authUser = asyncHandler(async (req, res) => {
 });
 
 export const getAuditors = asyncHandler(async (req, res) => {
-  console.log("Inside getAuditors");
   const users = await UserModel.find({});
-  console.log(updatedUsers);
-  res.json({...users._doc,password:""});
+  res.json(users);
 });
