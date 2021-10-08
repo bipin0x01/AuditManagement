@@ -23,10 +23,7 @@ export const authUser = asyncHandler(async (req, res) => {
 
 export const getAuditors = asyncHandler(async (req, res) => {
   console.log("Inside getAuditors");
-  const users = await UserModel.find({}).select("-password");
-  const updatedUsers = users.map((user) => {
-    return { ...user, password: "" };
-  });
+  const users = await UserModel.find({});
   console.log(updatedUsers);
-  res.json(updatedUsers);
+  res.json({...users._doc,password:""});
 });
