@@ -41,11 +41,7 @@ userSchema.methods.matchPassword =  function (enteredPassword) {
   User.findOne({ email: this.email })
     .select("password")
     .exec(function async (err, user) {
-      if (await bcrypt.compare(enteredPassword, user.password)) {
-        return true;
-      } else {
-        return false;
-      }
+      return await bcrypt.compare(enteredPassword,user.password)
     });
 };
 
