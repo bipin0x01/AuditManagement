@@ -27,6 +27,11 @@ const userSchema = mongoose.Schema(
   }
 );
 
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  console.log("I am comparing password");
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
@@ -37,9 +42,9 @@ userSchema.pre("save", async function (next) {
 
 const User = mongoose.model("User", userSchema);
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  const user = User.findOne({ email: this.email }).select("+password");
-  return await bcrypt.compare(enteredPassword, user.password);
-};
+// userSchema.methods.matchPassword = async function (enteredPassword) {
+//   const user = User.findOne({ email: this.email }).select("+password");
+//   return await bcrypt.compare(enteredPassword, user.password);
+// };
 
 export default User;
