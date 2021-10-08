@@ -7,7 +7,7 @@ export const authUser = asyncHandler(async (req, res) => {
 
   const user = await UserModel.findOne({ email });
 
-  if (user && (await await user.matchPassword(password))) {
+  if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       name: user.admin,
