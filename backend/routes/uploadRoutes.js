@@ -18,13 +18,13 @@ const storage = multer.diskStorage({
 });
 
 function checkFileType(file, cb) {
-  const fileTypes = /jpeg|jpg|png|pdf|docx|xlsx|csv|txt|/;
+  const fileTypes = /jpeg|jpg|png|pdf|docx|xlsx|csv|txt|csv/;
   const extname = fileTypes.test(path.extname(file.originalname.toLowerCase()));
   const mimetype = fileTypes.test(file.mimetype);
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    cb("Images, PDF, Document, PDF, Spreadsheet, and CSV only!");
+    return cb(new Error("Images, PDF, Document, PDF, Spreadsheet, and CSV only!"));
   }
 }
 
@@ -35,11 +35,11 @@ const upload = multer({
   },
 });
 
-router.route("/").post(protect, isAdmin, upload.array("clientFile", 10), (req, res) => {
-
-  const fullImageUrl = req.protocol + "://" + req.get("host") + "/uploads/";
-  const filesPath = req.files.map((file) => fullImageUrl + file.filename);
-  res.send(filesPath);
-});
+router
+  .route("/")
+  .post(protect, isAdmin, upload.single("clientFile"), (req, res) => {
+    const fullImageUrl = req.protocol + "://" + req.get("host") + "/uploads/";
+    res.send(`${fullImageUrl}${req.file.filename}`);
+  });
 
 export default router;
