@@ -1,0 +1,29 @@
+.sidebar{
+    z-index: 1000;
+    height: 100%;
+  position: fixed;
+
+  overflow-x: hidden;
+  
+}
+
+.mainbody{
+    margin-left: 243px;
+}
+
+
+.footer {
+    position:absolute;
+   bottom:0;
+   right: 0;
+}
+
+@media screen and (max-width: 1096px){
+    .sidebar{
+        display: none;
+}
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}

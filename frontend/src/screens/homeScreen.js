@@ -9,6 +9,7 @@ import DashCard from "../components/DashCard";
 import { getAuditorsAction } from "../actions/userActions";
 import Auditors from "../components/Auditors";
 import Spacer from "../components/Spacer";
+import Sidebar from "../components/Sidebar";
 
 const HomeScreen = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -36,8 +37,10 @@ const HomeScreen = ({ location, history }) => {
     dispatch(getClientDetailsAction());
   }, [history, userInfo, redirect, dispatch]);
   return (
-    <div>
-      <Row style={{ padding:"20px"}}>
+    
+    <>
+      
+      <Row >
         <DashCard title="No. of Clients" value={1000} icon={"fas fa-user"} color={"grey"}/>
         <DashCard title="No. of .......... " value={100} icon={"fas fa-briefcase"} color={"purple"} />
         <DashCard title="Total Audits" value={100} icon={"fas fa-file"} color={"blue"}/>
@@ -51,7 +54,7 @@ const HomeScreen = ({ location, history }) => {
           <Auditors auditors={auditors} />
         </Col>
       </Row>
-    </div>
+    </>
   );
 };
 

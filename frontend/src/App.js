@@ -6,18 +6,25 @@ import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen"
 import ClientListScreen from "./screens/ClientList";
+import Sidebar from "./components/Sidebar";
+import './responsive.css'
+
 const App = () => {
   return (
     <Router>
       <Header />
-      <main className="py-3">
+        <div className="col-2 sidebar">
+          <Sidebar />
+        </div>
+        <div className="col-10 pt-4 mainbody">
         <Container>
           <Route path="/login" component={LoginScreen} />
           <Route path="/" component={HomeScreen} exact />
           <Route path="/admin/clientlist" component={ClientListScreen} exact />
-        </Container>
-      </main>
-      <Footer />
+          </Container>
+          <Footer/>
+        </div>
+      
     </Router>
   );
 };
