@@ -21,3 +21,8 @@ export const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+export const getAuditors = asyncHandler(asyn (req,res) => {
+  const users = await UserModel.find({})
+  
+});
+
