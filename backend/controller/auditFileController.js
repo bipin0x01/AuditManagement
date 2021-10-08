@@ -13,7 +13,7 @@ export const createClient = asyncHandler(async (req, res) => {
       name: "Enter Full Name",
       clientId: uniqueId.generate(new Date().toJSON()),
       password: "Create Password",
-      email: "Enter Client Email",
+      email:`Enter Client Email-- ${uniqueId.generate(new Date().toJSON())}`,
       address: "Enter Client Address",
       phone: "Enter Client Phone",
       registrationNumber: "Enter registration Number",
@@ -27,7 +27,6 @@ export const createClient = asyncHandler(async (req, res) => {
     });
 
     const createdClient = await client.save();
-    console.log(createdClient);
     res.status(201).json({
       user: User._id,
       _id: createdClient._id,
@@ -121,14 +120,15 @@ export const clientDelete = asyncHandler(async (req, res) => {
 });
 
 export const fetchClients = asyncHandler(async (req, res) => {
+  console.log("I am fetchin");
   const clients = await ClientModel.find({});
   res.json(clients);
 });
 
 export const getClientDetails = asyncHandler(async (req, res) => {
   const clients = await ClientModel.find({});
-  console.log(req.params.id)
-  console.log(clients)
+  console.log(req.params.id);
+  console.log(clients);
   const client = await ClientModel.findById(req.params.id);
   if (client) {
     res.json(client);

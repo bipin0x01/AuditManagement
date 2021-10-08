@@ -37,15 +37,15 @@ const HomeScreen = ({ location, history }) => {
   }, [history, userInfo, redirect, dispatch]);
   return (
     <div>
-      <Row>
-        <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
-        <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
-        <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
-        <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
+      <Row style={{ padding:"20px"}}>
+        <DashCard title="No. of Clients" value={1000} icon={"fas fa-user"} color={"grey"}/>
+        <DashCard title="No. of .......... " value={100} icon={"fas fa-briefcase"} color={"purple"} />
+        <DashCard title="Total Audits" value={100} icon={"fas fa-file"} color={"blue"}/>
+        <DashCard title="No. of .......... " value={100} icon={"fas fa-briefcase"} color={"orange"} />
       </Row>
       <Row style={{ marginTop: "20px" }}>
         <Col sm={12} md={6} xl={3}>
-          <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
+          
         </Col>
         <Col sm={12} md={12} xl={9}>
           <Auditors auditors={auditors} />

@@ -7,19 +7,19 @@ const Auditors = ({ auditors }) => {
       <Table striped bordered hover responsive className="table-sm">
         <thead>
           <tr>
-            <th>Auditor ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Joined Date</th>
           </tr>
         </thead>
         <tbody>
           {auditors &&
             auditors.map((auditor) => (
               <tr key={auditor._id}>
-                <td>{auditor._id}</td>
                 <td>{auditor.name}</td>
-
                 <td>{auditor.email}</td>
+
+                <td>{auditor.createdAt.substring(0, 10)}</td>
               </tr>
             ))}
         </tbody>
