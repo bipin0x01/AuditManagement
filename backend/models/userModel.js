@@ -38,7 +38,7 @@ userSchema.pre("save", async function (next) {
 const User = mongoose.model("User", userSchema);
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  User.findOne({ email: this.email })
+  await User.findOne({ email: this.email })
     .select("password")
     .exec(function async (err, user) {
       if (await bcrypt.compare(enteredPassword, user.password)) {
