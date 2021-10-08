@@ -27,14 +27,6 @@ const userSchema = mongoose.Schema(
   }
 );
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  console.log(
-    "I am comparing password, current password this.password is: " +
-      this.password
-  );
-  return await bcrypt.compare(enteredPassword, this.password);
-};
-
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
@@ -44,5 +36,18 @@ userSchema.pre("save", async function (next) {
 });
 
 const User = mongoose.model("User", userSchema);
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  User.findOne({ email: this.email })
+    .select("password")
+    .exec(function (err, user) {
+      if (await bcrypt.compare(enteredPassword, user.password)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  return;
+};
 
 export default User;
