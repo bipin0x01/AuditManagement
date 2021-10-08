@@ -75,6 +75,36 @@ export const logout = () => (dispatch) => {
   // });
 };
 
+export const getAuditorsAction = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users`, config);
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 // export const userRegisterAction =
 //   (name, email, password) => async (dispatch) => {
 //     try {
@@ -110,9 +140,6 @@ export const logout = () => (dispatch) => {
 //       });
 //     }
 //   };
-
-
-  
 
 // export const updateUserProfileAction = (user) => async (dispatch, getState) => {
 //   try {
