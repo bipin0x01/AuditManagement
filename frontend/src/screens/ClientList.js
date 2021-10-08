@@ -78,7 +78,7 @@ const ClientListScreen = ({ history }) => {
                   </td>
                   <td>
                     <LinkContainer
-                      to={`/users/${client._id}/edit`}
+                      to={`/admin/clients/${client._id}/edit`}
                       style={{ marginRight: "5px" }}
                     >
                       <Button variant="light" className="btn-sm">

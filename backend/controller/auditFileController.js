@@ -52,8 +52,16 @@ export const createClient = asyncHandler(async (req, res) => {
 });
 
 export const updateClient = asyncHandler(async (req, res) => {
-  const { name, password, email, address, phone, registrationNumber, images } =
-    req.body;
+  const {
+    name,
+    password,
+    email,
+    address,
+    phone,
+    registrationNumber,
+    images,
+    isAdmin,
+  } = req.body;
   const client = await ClientModel.findById(req.params.id).select("+password");
   if (client) {
     client.name = name || client.name;
@@ -63,6 +71,7 @@ export const updateClient = asyncHandler(async (req, res) => {
     client.phone = phone || client.phone;
     client.registrationNumber = registrationNumber || client.registrationNumber;
     client.images = images || client.images;
+    client.isAdmin = isAdmin || client.isAdmin;
     client.clientId = client.clientId;
     const updatedClient = await client.save();
     if (updatedClient) {
@@ -120,15 +129,12 @@ export const clientDelete = asyncHandler(async (req, res) => {
 });
 
 export const fetchClients = asyncHandler(async (req, res) => {
-  console.log("I am fetchin");
   const clients = await ClientModel.find({});
   res.json(clients);
 });
 
 export const getClientDetails = asyncHandler(async (req, res) => {
   const clients = await ClientModel.find({});
-  console.log(req.params.id);
-  console.log(clients);
   const client = await ClientModel.findById(req.params.id);
   if (client) {
     res.json(client);
