@@ -108,6 +108,7 @@ export const deleteClient = (id) => async (dispatch, getState) => {
 };
 
 export const updateClientProfile = (client) => async (dispatch, getState) => {
+  
   try {
     dispatch({
       type: CLIENT_UPDATE_PROFILE_REQUEST,
@@ -122,7 +123,6 @@ export const updateClientProfile = (client) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    console.log(client);
     const { data } = await axios.put(
       `/api/clients/${client._id}`,
       client,

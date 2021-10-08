@@ -75,7 +75,7 @@ export const updateClient = asyncHandler(async (req, res) => {
     client.phone = phone || client.phone;
     client.registrationNumber = registrationNumber || client.registrationNumber;
     client.images = images || client.images;
-    client.isAdmin = isAdmin || client.isAdmin;
+    client.isAdmin = isAdmin;
     client.clientId = client.clientId;
     const updatedClient = await client.save();
     if (updatedClient) {
