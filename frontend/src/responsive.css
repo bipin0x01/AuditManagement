@@ -19,10 +19,13 @@
    right: 0;
 }
 
-@media screen and (max-width: 992px){
-    .mainbody{
-        
+@media screen and (max-width: 425px){
+    .sidebar{
+        display: none;
 }
+    .mainbody{
+        margin-left: 0;
+    }
 }
 
 ::-webkit-scrollbar {

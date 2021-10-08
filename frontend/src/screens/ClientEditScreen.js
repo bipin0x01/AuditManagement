@@ -6,7 +6,6 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import axios from "axios";
-import * as yup from "yup";
 import {
   CLIENT_UPDATE_PROFILE_RESET,
   CLIENT_UPDATE_RESET,
