@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import axios from "axios";
+import * as yup from "yup";
 import {
   CLIENT_UPDATE_PROFILE_RESET,
   CLIENT_UPDATE_RESET,
@@ -14,6 +15,7 @@ import {
   getASingleClientDetails,
   updateClientProfile,
 } from "../actions/clientAction";
+
 const ClinetEditScreen = ({ match, history }) => {
   const clientId = match.params.id;
   const [name, setName] = useState("");
@@ -23,8 +25,11 @@ const ClinetEditScreen = ({ match, history }) => {
   const [phone, setPhone] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [images, setImages] = useState([]);
+  const [dp, setDp] = useState("");
   const [uploading, setUploading] = useState(false);
-
+  const [dpUploading, setDpUploading] = useState(false);
+  const [fileUploadError, setFileUploadError] = useState("");
+  const [dpUploadError, setDpUploadError] = useState("");
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -47,7 +52,6 @@ const ClinetEditScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     dispatch(
       updateClientProfile({
         _id: clientId,
@@ -57,7 +61,8 @@ const ClinetEditScreen = ({ match, history }) => {
         address,
         phone,
         registrationNumber,
-        images,
+        images: images,
+        dp,
       })
     );
   };
@@ -75,25 +80,57 @@ const ClinetEditScreen = ({ match, history }) => {
         setPhone(client.phone);
         setRegistrationNumber(client.registrationNumber);
         setImages(client.images);
+        setDp(client.dp);
       }
     }
   }, [client, dispatch, clientId, successUpdate, history]);
 
+  const dpUploader = async (e) => {
+    setDpUploadError("");
+    e.preventDefault();
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("clientFile", file);
+    setDpUploading(true);
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post("/api/upload", formData, config);
+      console.log(data);
+      setDp(data);
+      setDpUploading(false);
+    } catch (error) {
+      console.log(error, " From uploadHandler in ProductEditScreen");
+      setDpUploading(false);
+    }
+  };
+
   const uploadHandler = async (e) => {
+    setFileUploadError("");
     e.preventDefault();
     const files = e.target.files;
     const arrFiles = Object.keys(files).map((key) => files[key]);
-    console.log(arrFiles);
-    setUploading(true);
 
     try {
+      arrFiles.map((eachFile) => {
+        if (eachFile.size > 124000000) {
+          throw new Error(
+            `A single file should not be more than 100MB: ${eachFile.name}`
+          );
+        }
+      });
+      setUploading(true);
       const updateImagesPath = client.images.filter((imageP) => {
         return (
           imageP.split("/")[imageP.split("/").length - 1] !==
           "sampleImage2021oct8.jpeg"
         );
       });
-
+      console.log(updateImagesPath);
       setImages(updateImagesPath);
       const imagesData = await Promise.all(
         arrFiles.map(async (file) => {
@@ -108,67 +145,16 @@ const ClinetEditScreen = ({ match, history }) => {
           };
 
           const { data } = await axios.post("/api/upload", formData, config);
-          return data;
+          return data.toString().replace(/\n/g, "").trim();
         })
       );
-      setImages([...images, imagesData]);
+      setImages([...images, ...imagesData]);
       setUploading(false);
     } catch (error) {
-      console.log(error, " From uploadHandler in ClientEditScreen");
+      setFileUploadError(error.message);
       setUploading(false);
     }
   };
-
-  //   var _validFileExtensions = [
-  //     ".jpg",
-  //     ".jpeg",
-  //     ".bmp",
-  //     ".gif",
-  //     ".png",
-  //     ".pdf",
-  //     ".docx",
-  //     ".xlsx",
-  //     ".csv",
-  //     ".txt",
-  //   ];
-  //   function Validate(oForm) {
-  //     var arrInputs = oForm.getElementsByTagName("input");
-  //     for (var i = 0; i < arrInputs.length; i++) {
-  //       var oInput = arrInputs[i];
-  //       if (oInput.type == "file") {
-  //         var sFileName = oInput.value;
-  //         if (sFileName.length > 0) {
-  //           var blnValid = false;
-  //           for (var j = 0; j < _validFileExtensions.length; j++) {
-  //             var sCurExtension = _validFileExtensions[j];
-  //             if (
-  //               sFileName
-  //                 .substr(
-  //                   sFileName.length - sCurExtension.length,
-  //                   sCurExtension.length
-  //                 )
-  //                 .toLowerCase() == sCurExtension.toLowerCase()
-  //             ) {
-  //               blnValid = true;
-  //               break;
-  //             }
-  //           }
-
-  //           if (!blnValid) {
-  //             alert(
-  //               "Sorry, " +
-  //                 sFileName +
-  //                 " is invalid, allowed extensions are: " +
-  //                 _validFileExtensions.join(", ")
-  //             );
-  //             return false;
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     return true;
-  //   }
 
   return (
     <>
@@ -185,6 +171,36 @@ const ClinetEditScreen = ({ match, history }) => {
           <Message variant="danger">{error}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
+            <Form.Group controlId="dp" className="py-3">
+              <Message variant="warning">
+                Valid file types are: jpeg, jpg, png
+              </Message>
+              {fileUploadError && (
+                <Message variant="danger">{fileUploadError}</Message>
+              )}
+              <Row>
+                <Col xl={9}>
+                  <Form.Label>
+                    Enter Profile Image URL or Select an image
+                  </Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="url"
+                    value={dp}
+                    onChange={(e) => setDp(e.target.value)}
+                  ></Form.Control>
+                </Col>
+                <Col xl={3} style={{}}>
+                  <Form.File
+                    style={{ position: "relative", top: "50%" }}
+                    id="dp-image"
+                    onChange={dpUploader}
+                  ></Form.File>
+                </Col>
+              </Row>
+
+              {uploading && <Loader />}
+            </Form.Group>
             <Form.Group controlId="name" className="py-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -230,25 +246,38 @@ const ClinetEditScreen = ({ match, history }) => {
                 onChange={(e) => setRegistrationNumber(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
             <Form.Group controlId="images" className="py-3">
-              <Message variant="info">
+              <Message variant="warning">
                 Valid file types are: jpeg, jpg, png, pdf, docx, xlsx, csv, txt
               </Message>
+              {fileUploadError && (
+                <Message variant="danger">{fileUploadError}</Message>
+              )}
+              <Row>
+                <Col xl={9}>
+                  <Form.Label>
+                    Enter images URL (separated with commas)
+                  </Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="url1,url2,url3"
+                    value={images}
+                    onChange={(e) => setImages(e.target.value)}
+                  ></Form.Control>
+                </Col>
+                <Col xl={3} style={{}}>
+                  <Form.File
+                    style={{ position: "relative", top: "50%" }}
+                    id="image-file"
+                    name="auditfiles"
+                    custom
+                    onChange={uploadHandler}
+                    multiple="true"
+                  ></Form.File>
+                </Col>
+              </Row>
 
-              <Form.Label>Enter images URL (separated with commas)</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="url1,url2,url3"
-                value={images}
-                onChange={(e) => setImages(e.target.value)}
-              ></Form.Control>
-              <Form.File
-                style={{ marginTop: "10px" }}
-                id="image-file"
-                custom
-                onChange={uploadHandler}
-                multiple="true"
-              ></Form.File>
               {uploading && <Loader />}
             </Form.Group>
             <Button type="submit" variant="primary">

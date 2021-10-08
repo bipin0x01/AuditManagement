@@ -6,7 +6,8 @@ import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen"
 import ClientListScreen from "./screens/ClientList";
-import ClinetEditScreen from "./screens/ClientEditScreen";
+import ClientEditScreen from "./screens/ClientEditScreen";
+import ClientScreen from "./screens/ClientScreen";
 const App = () => {
   return (
     <Router>
@@ -16,7 +17,8 @@ const App = () => {
           <Route path="/login" component={LoginScreen} />
           <Route path="/" component={HomeScreen} exact />
           <Route path="/admin/clientlist" component={ClientListScreen} />
-          <Route path="/admin/clients/:id/edit" component={ClinetEditScreen} />
+          <Route path="/admin/clients/:id/edit" component={ClientEditScreen} />
+          <Route path="/admin/clients/:id/info" component={ClientScreen} />
         </Container>
       </main>
       <Footer />

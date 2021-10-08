@@ -7,6 +7,12 @@ const clientSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    dp: {
+      type: String,
+      required: true,
+      default:
+        "https://image.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg",
+    },
     clientId: {
       type: String,
       required: true,
@@ -24,7 +30,7 @@ const clientSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select:false
+      select: false,
     },
     address: {
       type: String,

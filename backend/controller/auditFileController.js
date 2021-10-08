@@ -11,9 +11,10 @@ export const createClient = asyncHandler(async (req, res) => {
     const client = new ClientModel({
       user: User._id,
       name: "Enter Full Name",
+      dp: "https://image.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg",
       clientId: uniqueId.generate(new Date().toJSON()),
       password: "Create Password",
-      email:`Enter Client Email-- ${uniqueId.generate(new Date().toJSON())}`,
+      email: `Enter Client Email-- ${uniqueId.generate(new Date().toJSON())}`,
       address: "Enter Client Address",
       phone: "Enter Client Phone",
       registrationNumber: "Enter registration Number",
@@ -30,6 +31,7 @@ export const createClient = asyncHandler(async (req, res) => {
     res.status(201).json({
       user: User._id,
       _id: createdClient._id,
+      dp: "https://image.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg",
       name: "Enter Full Name",
       password: "Create New Password",
       email: "Enter Client Email",
@@ -61,10 +63,12 @@ export const updateClient = asyncHandler(async (req, res) => {
     registrationNumber,
     images,
     isAdmin,
+    dp,
   } = req.body;
   const client = await ClientModel.findById(req.params.id).select("+password");
   if (client) {
     client.name = name || client.name;
+    client.dp = dp || client.dp;
     client.password = password || client.password;
     client.email = email || client.email;
     client.address = address || client.address;
@@ -134,7 +138,6 @@ export const fetchClients = asyncHandler(async (req, res) => {
 });
 
 export const getClientDetails = asyncHandler(async (req, res) => {
-  const clients = await ClientModel.find({});
   const client = await ClientModel.findById(req.params.id);
   if (client) {
     res.json(client);
