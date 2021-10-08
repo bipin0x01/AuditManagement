@@ -7,6 +7,8 @@ import { Button, Col, Form, Row, Card } from "react-bootstrap";
 import { getClientDetailsAction } from "../actions/clientAction";
 import DashCard from "../components/DashCard";
 import { getAuditorsAction } from "../actions/userActions";
+import Auditors from "../components/Auditors";
+import Spacer from "../components/Spacer";
 
 const HomeScreen = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -16,6 +18,13 @@ const HomeScreen = ({ location, history }) => {
 
   const clientDetails = useSelector((state) => state.clientDetails);
   const { loading: clientLoading, clients, error: clientError } = clientDetails;
+
+  const auditorsDetails = useSelector((state) => state.auditorsDetails);
+  const {
+    loading: auditorLoading,
+    auditors,
+    error: auditorError,
+  } = auditorsDetails;
 
   useEffect(() => {
     if (!userInfo) {
@@ -33,6 +42,14 @@ const HomeScreen = ({ location, history }) => {
         <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
         <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
         <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
+      </Row>
+      <Row style={{ marginTop: "20px" }}>
+        <Col sm={12} md={6} xl={3}>
+          <DashCard title="No. of Clients" value={10} icon={"fas fa-user"} />
+        </Col>
+        <Col sm={12} md={12} xl={9}>
+          <Auditors auditors={auditors} />
+        </Col>
       </Row>
     </div>
   );

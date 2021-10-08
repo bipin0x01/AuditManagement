@@ -6,7 +6,7 @@ import UserModel from "../models/userModel.js";
 import path from "path";
 import fs from "fs";
 export const createClient = asyncHandler(async (req, res) => {
-  const User = await UserModel.findById(req.user._id).select("-password");
+  const User = await UserModel.findById(req.user._id);
   if (User) {
     const client = new ClientModel({
       user: User._id,
@@ -55,9 +55,7 @@ export const createClient = asyncHandler(async (req, res) => {
 export const updateClient = asyncHandler(async (req, res) => {
   const { name, password, email, address, phone, registrationNumber, images } =
     req.body;
-
-  const client = await ClientModel.findById(req.params.id);
-
+  const client = await ClientModel.findById(req.params.id).select("+password");
   if (client) {
     client.name = name || client.name;
     client.password = password || client.password;
@@ -71,7 +69,7 @@ export const updateClient = asyncHandler(async (req, res) => {
     if (updatedClient) {
       const fetchingUpdatedClient = await ClientModel.findById(
         updatedClient._id
-      ).select("-password");
+      );
       res.json(fetchingUpdatedClient);
     } else {
       res.status(404);
@@ -123,12 +121,15 @@ export const clientDelete = asyncHandler(async (req, res) => {
 });
 
 export const fetchClients = asyncHandler(async (req, res) => {
-  const clients = await ClientModel.find({}).select("-password");
+  const clients = await ClientModel.find({});
   res.json(clients);
 });
 
 export const getClientDetails = asyncHandler(async (req, res) => {
-  const client = await ClientModel.findById(req.params.id).select("-password");
+  const clients = await ClientModel.find({});
+  console.log(req.params.id)
+  console.log(clients)
+  const client = await ClientModel.findById(req.params.id);
   if (client) {
     res.json(client);
   } else {
