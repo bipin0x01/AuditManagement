@@ -1,7 +1,19 @@
 import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Footer = () => {
-  return <footer>Copyright 1999</footer>;
+  return (
+    <footer>
+      {" "}
+      <Container>
+        <Row>
+          <Col className="text-center py-3">
+            Copyright &copy; Audit Management
+          </Col>
+        </Row>
+      </Container>
+    </footer>
+  );
 };
 
 export default Footer;
