@@ -15,8 +15,8 @@ const ClientListScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-    const clientDelete = useSelector((state) => state.clientDelete);
-    const { success: successDelete, loading: loadingDelete } = clientDelete;
+  const clientDelete = useSelector((state) => state.clientDelete);
+  const { success: successDelete, loading: loadingDelete } = clientDelete;
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getClientDetailsAction());
@@ -58,7 +58,21 @@ const ClientListScreen = ({ history }) => {
             {clients &&
               clients.map((client) => (
                 <tr key={client._id}>
-                  <td>{client.clientId}</td>
+                  <LinkContainer
+                    style={{ color: "red" }}
+                    to={`/admin/clients/${client._id}/info`}
+                  >
+                    <td>
+                      <p
+                        style={{
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {client.clientId}
+                      </p>
+                    </td>
+                  </LinkContainer>
                   <td>{client.name}</td>
                   <td>
                     <a href={`mailto:${client.email}`}>{client.email}</a>
