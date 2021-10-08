@@ -4,12 +4,12 @@ import { Container } from "react-bootstrap";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
-import HomeScreen from "./screens/HomeScreen"
+import HomeScreen from "./screens/HomeScreen";
 import ClientListScreen from "./screens/ClientList";
 import ClientEditScreen from "./screens/ClientEditScreen";
 import ClientScreen from "./screens/ClientScreen";
 import Sidebar from "./components/Sidebar";
-import './responsive.css'
+import "./responsive.css";
 
 const App = () => {
   return (
