@@ -47,7 +47,6 @@ userSchema.methods.matchPassword =  function (enteredPassword) {
         return false;
       }
     });
-  return;
 };
 
 export default User;
