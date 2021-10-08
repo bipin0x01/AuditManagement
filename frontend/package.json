@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "proxy":"http://192.168.1.71:5000",
+  "proxy": "http://192.168.1.71:5000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,8 +9,10 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.22.0",
     "react": "^17.0.2",
+    "react-admin": "^3.18.3",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
+    "react-pro-sidebar": "^0.7.1",
     "react-redux": "^7.2.5",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.3.0",

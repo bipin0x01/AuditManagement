@@ -8,11 +8,17 @@ import HomeScreen from "./screens/HomeScreen"
 import ClientListScreen from "./screens/ClientList";
 import ClientEditScreen from "./screens/ClientEditScreen";
 import ClientScreen from "./screens/ClientScreen";
+import Sidebar from "./components/Sidebar";
+import './responsive.css'
+
 const App = () => {
   return (
     <Router>
       <Header />
-      <main className="py-3">
+        <div className="col-2 sidebar">
+          <Sidebar />
+        </div>
+        <div className="col-10 pt-4 mainbody">
         <Container>
           <Route path="/login" component={LoginScreen} />
           <Route path="/" component={HomeScreen} exact />
@@ -22,6 +28,11 @@ const App = () => {
         </Container>
       </main>
       <Footer />
+          <Route path="/admin/clientlist" component={ClientListScreen} exact />
+          </Container>
+          <Footer/>
+        </div>
+      
     </Router>
   );
 };
