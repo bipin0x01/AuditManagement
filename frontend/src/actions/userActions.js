@@ -91,6 +91,8 @@ export const getAuditorsAction = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.get(`/api/users`, config);
+    console.log("These are clients:")
+    console.log(data)
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
