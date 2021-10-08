@@ -40,7 +40,7 @@ const User = mongoose.model("User", userSchema);
 userSchema.methods.matchPassword = async function (enteredPassword) {
   User.findOne({ email: this.email })
     .select("password")
-    .exec(function (err, user) {
+    .exec(function async (err, user) {
       if (await bcrypt.compare(enteredPassword, user.password)) {
         return true;
       } else {
