@@ -73,7 +73,7 @@ const HomeScreen = ({ location, history }) => {
           ) : auditorError ? (
             <Message variant="danger">{auditorError}</Message>
           ) : (
-            <Auditors auditors={auditors} />
+            <Auditors auditors={auditors} userLogin={userLogin} />
           )}
         </Col>
       </Row>
