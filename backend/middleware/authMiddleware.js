@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import UserModel from "../models/userModel.js";
-import asynchHandler from "express-async-handler";
-export const protect = asynchHandler(async (req, res, next) => {
+import asyncHandler from "express-async-handler";
+export const protect = asyncHandler(async (req, res, next) => {
   let token;
   try {
     if (
@@ -27,11 +27,20 @@ export const protect = asynchHandler(async (req, res, next) => {
   }
 });
 
-export const isAdmin = asynchHandler(async (req, res, next) => {
+export const isAdmin = asyncHandler(async (req, res, next) => {
   if (req.user.isAdmin) {
     next();
   } else {
     res.status(401);
     throw new Error("Unauthorized");
+  }
+});
+
+export const isMasterAdmin = asyncHandler(async (req, res, next) => {
+  if (req.user.email === "test@example.com") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Only Master Admin is allowed");
   }
 });

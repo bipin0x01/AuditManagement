@@ -55,38 +55,48 @@ export const createAuditor = asyncHandler(async (req, res) => {
 });
 
 export const updateAuditor = asyncHandler(async (req, res) => {
-  const {
-    name,
-    password,
-    email,
-    address,
-    phone,
-    registrationNumber,
-    images,
-    dp,
-  } = req.body;
-  const client = await ClientModel.findById(req.params.id).select("+password");
-  if (client) {
-    client.name = name || client.name;
-    client.dp = dp || client.dp;
-    client.password = password || client.password;
-    client.email = email || client.email;
-    client.address = address || client.address;
-    client.phone = phone || client.phone;
-    client.registrationNumber = registrationNumber || client.registrationNumber;
-    client.images = images || client.images;
-    const updatedClient = await client.save();
-    if (updatedClient) {
-      const fetchingUpdatedClient = await ClientModel.findById(
-        updatedClient._id
+  const { name, password, email, dp } = req.body;
+  const auditor = await UserModel.findById(req.params.id).select("+password");
+  if (auditor) {
+    auditor.name = name || auditor.name;
+    auditor.dp = dp || auditor.dp;
+    auditor.password = password || auditor.password;
+    auditor.email = email || auditor.email;
+    const updatedAuditor = await auditor.save();
+    if (updatedAuditor) {
+      const fetchingUpdatedAuditors = await UserModel.findById(
+        updatedAuditor._id
       );
-      res.json(fetchingUpdatedClient);
+      res.json(fetchingUpdatedAuditors);
     } else {
       res.status(404);
-      throw new Error("Client not found: Some error occurred");
+      throw new Error("Auditor not found: Some error occurred");
     }
   } else {
     res.status(404);
-    throw new Error("Client not found");
+    throw new Error("Auditor not found");
+  }
+});
+
+export const auditorDelete = asyncHandler(async (req, res) => {
+  const auditor = await UserModel.findById(req.params.id);
+
+  if (auditor) {
+    await auditor.remove();
+    const auditors = await UserModel.find({});
+    res.json(auditors);
+  } else {
+    res.status(404);
+    throw new Error("Auditor not found");
+  }
+});
+
+export const getAuditorDetails = asyncHandler(async (req, res) => {
+  const auditor = await UserModel.findById(req.params.id);
+  if (auditor) {
+    res.json(auditor);
+  } else {
+    res.status(404);
+    throw new Error("Auditor not found");
   }
 });

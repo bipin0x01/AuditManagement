@@ -37,21 +37,44 @@ const HomeScreen = ({ location, history }) => {
     dispatch(getClientDetailsAction());
   }, [history, userInfo, redirect, dispatch]);
   return (
-    
     <>
-      
-      <Row >
-        <DashCard title="No. of Clients" value={1000} icon={"fas fa-user"} color={"grey"}/>
-        <DashCard title="No. of .......... " value={100} icon={"fas fa-briefcase"} color={"purple"} />
-        <DashCard title="Total Audits" value={100} icon={"fas fa-file"} color={"blue"}/>
-        <DashCard title="No. of .......... " value={100} icon={"fas fa-briefcase"} color={"orange"} />
+      <Row>
+        <DashCard
+          title="No. of Clients"
+          value={1000}
+          icon={"fas fa-user"}
+          color={"grey"}
+        />
+        <DashCard
+          title="No. of .......... "
+          value={100}
+          icon={"fas fa-briefcase"}
+          color={"purple"}
+        />
+        <DashCard
+          title="Total Audits"
+          value={100}
+          icon={"fas fa-file"}
+          color={"blue"}
+        />
+        <DashCard
+          title="No. of .......... "
+          value={100}
+          icon={"fas fa-briefcase"}
+          color={"orange"}
+        />
       </Row>
       <Row style={{ marginTop: "20px" }}>
-        <Col sm={12} md={6} xl={3}>
-          
-        </Col>
+        <Col sm={12} md={6} xl={3}></Col>
         <Col sm={12} md={12} xl={9}>
-          <Auditors auditors={auditors} />
+          <h1>Auditor Details</h1>
+          {auditorLoading ? (
+            <Loader />
+          ) : auditorError ? (
+            <Message variant="danger">{auditorError}</Message>
+          ) : (
+            <Auditors auditors={auditors} />
+          )}
         </Col>
       </Row>
     </>
