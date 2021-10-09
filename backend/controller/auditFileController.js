@@ -5,6 +5,7 @@ import ClientModel from "../models/ClientModel.js";
 import UserModel from "../models/userModel.js";
 import path from "path";
 import fs from "fs";
+
 export const createClient = asyncHandler(async (req, res) => {
   const User = await UserModel.findById(req.user._id);
   if (User) {
@@ -62,7 +63,6 @@ export const updateClient = asyncHandler(async (req, res) => {
     phone,
     registrationNumber,
     images,
-    isAdmin,
     dp,
   } = req.body;
   const client = await ClientModel.findById(req.params.id).select("+password");
@@ -75,8 +75,6 @@ export const updateClient = asyncHandler(async (req, res) => {
     client.phone = phone || client.phone;
     client.registrationNumber = registrationNumber || client.registrationNumber;
     client.images = images || client.images;
-    client.isAdmin = isAdmin;
-    client.clientId = client.clientId;
     const updatedClient = await client.save();
     if (updatedClient) {
       const fetchingUpdatedClient = await ClientModel.findById(

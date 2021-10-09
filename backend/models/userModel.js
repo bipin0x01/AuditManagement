@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 const userSchema = mongoose.Schema(
   {
+    parentAuditor: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
     name: {
       type: String,
       required: true,
@@ -19,7 +24,13 @@ const userSchema = mongoose.Schema(
     isAdmin: {
       type: Boolean,
       required: true,
-      default: false,
+      default: true,
+    },
+    dp: {
+      type: String,
+      required: true,
+      default:
+        "https://image.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg",
     },
   },
   {

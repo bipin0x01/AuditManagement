@@ -11,6 +11,10 @@ import {
   CLIENT_SINGLE_DETAILS_REQ,
   CLIENT_SINGLE_DETAILS_SUCCESS,
   CLIENT_SINGLE_DETAILS_FAIL,
+  CLIENT_CREATE_FAIL,
+  CLIENT_CREATE_REQ,
+  CLIENT_CREATE_SUCCESS,
+  CLIENT_CREATE_RESET,
 } from "../constants/clientConstants";
 import axios from "axios";
 import { USER_LOGIN_SUCCESS } from "../constants/userConstants";
@@ -108,7 +112,6 @@ export const deleteClient = (id) => async (dispatch, getState) => {
 };
 
 export const updateClientProfile = (client) => async (dispatch, getState) => {
-  
   try {
     dispatch({
       type: CLIENT_UPDATE_PROFILE_REQUEST,
@@ -137,6 +140,37 @@ export const updateClientProfile = (client) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CLIENT_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const createClientAction = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CLIENT_CREATE_REQ,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(`/api/clients`, {}, config);
+    dispatch({
+      type: CLIENT_CREATE_SUCCESS,
+      payload: data,
+    });
+    
+  } catch (error) {
+    dispatch({
+      type: CLIENT_CREATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -6,6 +6,7 @@ import {
   userLoginReducer,
 } from "./reducers/userReducers";
 import {
+  clientCreateReducer,
   clientDeleteReducer,
   clientDetailsReducer,
   clientUpdateProfileReducer,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   auditorsDetails: auditorsDetailReducer,
   clientDelete: clientDeleteReducer,
   clientUpdate: clientUpdateProfileReducer,
+  clientCreate: clientCreateReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

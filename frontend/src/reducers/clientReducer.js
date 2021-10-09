@@ -1,4 +1,8 @@
 import {
+  CLIENT_CREATE_FAIL,
+  CLIENT_CREATE_REQ,
+  CLIENT_CREATE_RESET,
+  CLIENT_CREATE_SUCCESS,
   CLIENT_DEL_FAIL,
   CLIENT_DEL_REQ,
   CLIENT_DEL_SUCCESS,
@@ -71,6 +75,21 @@ export const singleClientDetailsReducer = (state = { client: {} }, action) => {
     case CLIENT_SINGLE_DETAILS_RESET:
       return { client: {} };
 
+    default:
+      return state;
+  }
+};
+
+export const clientCreateReducer = (state = { createdClient: {} }, action) => {
+  switch (action.type) {
+    case CLIENT_CREATE_REQ:
+      return { loading: true };
+    case CLIENT_CREATE_SUCCESS:
+      return { loading: false, success: true, createdClient: action.payload };
+    case CLIENT_CREATE_FAIL:
+      return { loading: false, error: action.payload };
+    case CLIENT_CREATE_RESET:
+      return {};
     default:
       return state;
   }

@@ -15,6 +15,7 @@ const App = () => {
   return (
     <Router>
       <Header />
+      <Route render={({history})=><Sidebar history={history}/>}/>
       <Sidebar />
       <div className="col-xl-9 col-lg-8 col-md-7 p-4 mainbody">
         <Route path="/login" component={LoginScreen} />

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { deleteClient, getClientDetailsAction } from "../actions/clientAction";
+import {
+  createClientAction,
+  deleteClient,
+  getClientDetailsAction,
+} from "../actions/clientAction";
+import { CLIENT_CREATE_RESET } from "../constants/clientConstants";
 
 const ClientListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,13 +22,36 @@ const ClientListScreen = ({ history }) => {
 
   const clientDelete = useSelector((state) => state.clientDelete);
   const { success: successDelete, loading: loadingDelete } = clientDelete;
+
+  const createClientHandler = () => {
+    dispatch(createClientAction());
+  };
+
+  const clientCreate = useSelector((state) => state.clientCreate);
+  const {
+    loading: createLoading,
+    success: createSuccess,
+    error: createError,
+    createdClient,
+  } = clientCreate;
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(getClientDetailsAction());
-    } else {
+    dispatch({ type: CLIENT_CREATE_RESET });
+    if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete]);
+    if (createSuccess) {
+      history.push(`/admin/clients/${createdClient._id}/edit`);
+    } else {
+      dispatch(getClientDetailsAction());
+    }
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    successDelete,
+    createSuccess,
+    createdClient,
+  ]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -32,7 +60,19 @@ const ClientListScreen = ({ history }) => {
   };
   return (
     <div>
-      <h1>Clients</h1>
+      <Row>
+        <Col sm={6} md={6} xl={6}>
+          <h1>Client List / Create Client</h1>
+        </Col>
+        <Col sm={6} md={6} xl={6}>
+          <Button
+            className="btn btn-outline-dark"
+            onClick={createClientHandler}
+          >
+            Create Client
+          </Button>
+        </Col>
+      </Row>
       {loading ? (
         <Loader />
       ) : error ? (

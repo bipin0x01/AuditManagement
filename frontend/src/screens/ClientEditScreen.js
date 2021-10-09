@@ -25,7 +25,7 @@ const ClinetEditScreen = ({ match, history }) => {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [images, setImages] = useState([]);
   const [dp, setDp] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [dpUploading, setDpUploading] = useState(false);
   const [fileUploadError, setFileUploadError] = useState("");
@@ -52,7 +52,6 @@ const ClinetEditScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("Is admin is: ", isAdmin);
     dispatch(
       updateClientProfile({
         _id: clientId,
@@ -64,7 +63,7 @@ const ClinetEditScreen = ({ match, history }) => {
         registrationNumber,
         images: images,
         dp,
-        isAdmin: isAdmin,
+        // isAdmin: isAdmin,
       })
     );
   };
@@ -83,7 +82,7 @@ const ClinetEditScreen = ({ match, history }) => {
         setRegistrationNumber(client.registrationNumber);
         setImages(client.images);
         setDp(client.dp);
-        setIsAdmin(client.isAdmin);
+        // setIsAdmin(client.isAdmin);
       }
     }
   }, [client, dispatch, clientId, successUpdate, history]);
@@ -249,7 +248,7 @@ const ClinetEditScreen = ({ match, history }) => {
                 onChange={(e) => setRegistrationNumber(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Form.Group controlId="isAdmin" className="py-3">
+            {/* <Form.Group controlId="isAdmin" className="py-3">
               <Form.Check
                 type="checkbox"
                 label="Is Admin"
@@ -258,7 +257,7 @@ const ClinetEditScreen = ({ match, history }) => {
                   setIsAdmin(e.target.checked);
                 }}
               ></Form.Check>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group controlId="images" className="py-3">
               <Message variant="warning">
                 Valid file types are: jpeg, jpg, png, pdf, docx, xlsx, csv, txt
