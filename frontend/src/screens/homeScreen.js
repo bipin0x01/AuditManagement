@@ -10,6 +10,7 @@ import { getAuditorsAction } from "../actions/userActions";
 import Auditors from "../components/Auditors";
 import Spacer from "../components/Spacer";
 import Sidebar from "../components/Sidebar";
+import { USER_CREATE_RESET } from "../constants/userConstants";
 
 const HomeScreen = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -21,7 +22,11 @@ const HomeScreen = ({ location, history }) => {
   const { loading: clientLoading, clients, error: clientError } = clientDetails;
 
   const auditorDelete = useSelector((state) => state.auditorDelete);
-  const { loading: deleteLoading, success: successDelete, error: deleteError } = auditorDelete;
+  const {
+    loading: deleteLoading,
+    success: successDelete,
+    error: deleteError,
+  } = auditorDelete;
 
   const auditorsDetails = useSelector((state) => state.auditorsDetails);
   const {
@@ -30,15 +35,39 @@ const HomeScreen = ({ location, history }) => {
     error: auditorError,
   } = auditorsDetails;
 
+  const auditorCreate = useSelector((state) => state.auditorCreate);
+  const {
+    loading: createdAuditorLoading,
+    success: createdAuditorSuccess,
+    error: createdAuditorError,
+    createdAuditor,
+  } = auditorCreate;
+
   useEffect(() => {
-    if (!userInfo) {
+    dispatch({ type: USER_CREATE_RESET });
+    if (!userInfo || !userInfo.isAdmin) {
       history.push(redirect);
     }
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(getAuditorsAction());
+    if (createdAuditorSuccess) {
+      history.push(`/master/auditors/${createdAuditor._id}/edit`);
+    } else {
+      if (userInfo && userInfo.isAdmin) {
+        dispatch(getAuditorsAction());
+      }
     }
+    if(!clients){
     dispatch(getClientDetailsAction());
-  }, [history, userInfo, redirect, dispatch, successDelete]);
+
+    }
+  }, [
+    history,
+    userInfo,
+    redirect,
+    dispatch,
+    successDelete,
+    createdAuditor,
+    createdAuditorSuccess,
+  ]);
   return (
     <>
       <Row>

@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import Client from "../models/ClientModel.js";
 import UserModel from "../models/userModel.js";
 import { generateToken } from "../utils/generateToken.js";
+import uniqueId from "nodejs-unique-numeric-id-generator";
 
 export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -45,6 +46,7 @@ export const createAuditor = asyncHandler(async (req, res) => {
 
     const createdAuditor = await auditor.save();
     res.status(201).json({
+      _id: createdAuditor._id,
       parentAuditor: User._id,
       name: "Enter Full Name",
       dp: "https://image.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg",
