@@ -20,6 +20,9 @@ const HomeScreen = ({ location, history }) => {
   const clientDetails = useSelector((state) => state.clientDetails);
   const { loading: clientLoading, clients, error: clientError } = clientDetails;
 
+  const auditorDelete = useSelector((state) => state.auditorDelete);
+  const { loading: deleteLoading, success: successDelete, error: deleteError } = auditorDelete;
+
   const auditorsDetails = useSelector((state) => state.auditorsDetails);
   const {
     loading: auditorLoading,
@@ -35,7 +38,7 @@ const HomeScreen = ({ location, history }) => {
       dispatch(getAuditorsAction());
     }
     dispatch(getClientDetailsAction());
-  }, [history, userInfo, redirect, dispatch]);
+  }, [history, userInfo, redirect, dispatch, successDelete]);
   return (
     <>
       <Row>

@@ -11,12 +11,11 @@ const Auditors = ({ auditors, userLogin }) => {
     dispatch(deleteAuditor(id));
   };
 
-  const auditorDelete = useSelector((state) => state.auditorDelete);
-  const { loading, success, error } = auditorDelete;
+  
 
   const { userInfo } = userLogin;
 
-  useEffect(() => {}, [success]);
+  
 
   return (
     <div>
