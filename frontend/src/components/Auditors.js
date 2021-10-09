@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
+import { deleteAuditor } from "../actions/userActions";
+
 const Auditors = ({ auditors }) => {
-  const deleteHandler = (id) => {};
+  const dispatch = useDispatch();
+  const deleteHandler = (id) => {
+    dispatch(deleteAuditor(id));
+  };
+
+  const auditorDelete = useSelector((state) => state.auditorDelete);
+  const { loading, success, error } = auditorDelete;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {}, [success]);
+
   return (
     <div>
       <Table striped bordered hover responsive className="table-sm">
@@ -39,33 +54,56 @@ const Auditors = ({ auditors }) => {
                 <td>
                   {auditor.isMaster ? (
                     <i
-                      style={{ color: "green", fontSize: "1.5rem", position:"relative", left:"50%", transform:"translate(-50%)" }}
+                      style={{
+                        color: "green",
+                        fontSize: "1.5rem",
+                        position: "relative",
+                        left: "50%",
+                        transform: "translate(-50%)",
+                      }}
                       className="fas fa-check"
                     ></i>
                   ) : (
                     <i
-                      style={{ color: "red", fontSize: "1.5rem", position:"relative", left:"50%", transform:"translate(-50%)" }}
+                      style={{
+                        color: "red",
+                        fontSize: "1.5rem",
+                        position: "relative",
+                        left: "50%",
+                        transform: "translate(-50%)",
+                      }}
                       className="fas fa-times"
                     ></i>
                   )}
                 </td>
                 <td>
                   <div>
-                    <LinkContainer
-                      to={`/master/auditors/${auditor._id}/edit`}
-                      style={{ marginRight: "5px" }}
-                    >
-                      <Button variant="light" className="btn-sm">
-                        <i className="fas fa-edit"></i>
+                    {(!auditor.isMaster || userInfo._id === auditor._id) && (
+                      <LinkContainer
+                        to={`/master/auditors/${auditor._id}/edit`}
+                        style={{ marginRight: "5px" }}
+                      >
+                        <Button variant="light" className="btn-sm">
+                          <i className="fas fa-edit"></i>
+                        </Button>
+                      </LinkContainer>
+                    )}
+                    {userInfo._id === auditor._id || auditor.isMaster ? null : (
+                      <Button
+                        variant="danger"
+                        className="btn-sm"
+                        onClick={() => {
+                          if (window.confirm("Are you sure?")) {
+                            deleteHandler(auditor._id);
+                          }
+                        }}
+                      >
+                        <i
+                          className="fas fa-trash"
+                          style={{ color: "red" }}
+                        ></i>
                       </Button>
-                    </LinkContainer>
-                    <Button
-                      variant="danger"
-                      className="btn-sm"
-                      onClick={() => deleteHandler(auditor._id)}
-                    >
-                      <i className="fas fa-trash" style={{ color: "red" }}></i>
-                    </Button>
+                    )}
                   </div>
                 </td>
               </tr>
