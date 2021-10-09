@@ -4,6 +4,7 @@ const userData = [
     name: "Hari Udasi",
     password: bcrypt.hashSync("123456", 10),
     email: "test@example.com",
+    isMaster: true,
   },
   {
     name: "Ram",

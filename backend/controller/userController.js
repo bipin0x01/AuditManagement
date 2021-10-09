@@ -14,6 +14,9 @@ export const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
+      isMaster: user.isMaster,
+      parent: user.parentAuditor,
+      dp: user.dp,
     });
   } else {
     res.status(401);
@@ -55,13 +58,14 @@ export const createAuditor = asyncHandler(async (req, res) => {
 });
 
 export const updateAuditor = asyncHandler(async (req, res) => {
-  const { name, password, email, dp } = req.body;
+  const { name, password, email, dp, isMaster } = req.body;
   const auditor = await UserModel.findById(req.params.id).select("+password");
   if (auditor) {
     auditor.name = name || auditor.name;
     auditor.dp = dp || auditor.dp;
     auditor.password = password || auditor.password;
     auditor.email = email || auditor.email;
+    auditor.isMaster = isMaster;
     const updatedAuditor = await auditor.save();
     if (updatedAuditor) {
       const fetchingUpdatedAuditors = await UserModel.findById(

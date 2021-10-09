@@ -37,7 +37,7 @@ export const isAdmin = asyncHandler(async (req, res, next) => {
 });
 
 export const isMasterAdmin = asyncHandler(async (req, res, next) => {
-  if (req.user.email === "test@example.com") {
+  if (req.user.isMaster) {
     next();
   } else {
     res.status(401);

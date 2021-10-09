@@ -177,8 +177,8 @@ const ClinetEditScreen = ({ match, history }) => {
               <Message variant="warning">
                 Valid file types are: jpeg, jpg, png
               </Message>
-              {fileUploadError && (
-                <Message variant="danger">{fileUploadError}</Message>
+              {dpUploadError && (
+                <Message variant="danger">{dpUploadError}</Message>
               )}
               <Row>
                 <Col xl={9}>
@@ -201,7 +201,7 @@ const ClinetEditScreen = ({ match, history }) => {
                 </Col>
               </Row>
 
-              {uploading && <Loader />}
+              {dpUploading && <Loader />}
             </Form.Group>
             <Form.Group controlId="name" className="py-3">
               <Form.Label>Name</Form.Label>

@@ -26,6 +26,11 @@ const userSchema = mongoose.Schema(
       required: true,
       default: true,
     },
+    isMaster: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     dp: {
       type: String,
       required: true,
