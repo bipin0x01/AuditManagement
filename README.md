@@ -1,13 +1,30 @@
 # Documentation
 
+Live Demo: https://auditmanagementthapa.herokuapp.com/login
+
+<u>Test Credentials</u>
+
+```
+email: test@example.com
+
+password: 123456
+```
+
+### Frontend Routes
+
+Front Landing Page doesnot exist but can be accessed from
+https://localhost:{PORT}
+
+
+https://localhost:{PORT}/login
+
+https://localhost:{PORT}/admin/dashboard
+
 ### Backend
 
 API Routes Documentation
 
 https://documenter.getpostman.com/view/14057887/UVXqDXyr
-
-
-
 
 ## How to host the project in localhost?
 
