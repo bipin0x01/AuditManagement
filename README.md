@@ -15,10 +15,13 @@ password: 123456
 Front Landing Page doesnot exist but can be accessed from
 https://localhost:{PORT}
 
-
 https://localhost:{PORT}/login
 
+![Login Page](https://github.com/bipin0x01/AuditManagement/blob/main/Screenshots/login.PNG?raw=true)
+
 https://localhost:{PORT}/admin/dashboard
+
+![Dashboard Page](https://github.com/bipin0x01/AuditManagement/blob/main/Screenshots/Dashboard.PNG?raw=true)
 
 ### Backend
 
@@ -29,6 +32,7 @@ https://documenter.getpostman.com/view/14057887/UVXqDXyr
 ## How to host the project in localhost?
 
 Create an .env file in the main folder and add following parameters:
+
 ```
 MONGO_URI=
 PORT=
