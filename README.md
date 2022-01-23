@@ -21,7 +21,7 @@ https://localhost:{PORT}/login
 
 https://localhost:{PORT}/admin/dashboard
 
-![Dashboard Page](https://github.com/bipin0x01/AuditManagement/blob/main/Screenshots/Dashboard.PNG?raw=true)
+![Dashboard Page](https://github.com/bipin0x01/AuditManagement/blob/main/Screenshots/dashboard.PNG?raw=true)
 
 ### Backend
 
